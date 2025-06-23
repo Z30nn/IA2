@@ -1,0 +1,26 @@
+**Log on to freeprojectscodes.com for more projects!**
+
+**Database Name: resultgrading**
+
+**Developed by Sodiq Ahmed**
+
+**Recommended PHP Version 5.6, 7.4**
+
+
+**Admin Login Details** 
+  staff ID =" AD123 "
+	password = " freeprojectscodes.com "
+
+
+
+
+
+**DomPDF has been removed from the directory due to excessive file size**
+
+**Download "dompdf" and place it under the directory with the same folder name as mentioned**
+
+
+**Log on to freeprojectscodes.com for more projects!**
+
+
+
