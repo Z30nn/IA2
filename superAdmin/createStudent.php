@@ -12,9 +12,9 @@ if(isset($_POST['submit'])){
 
   $firstname=$_POST['firstname'];
   $lastname=$_POST['lastname'];
-  $othername=$_POST['othername'];
   $matricNo=$_POST['matricNo'];
   $levelId=$_POST['levelId'];
+  $password=$_POST['password'];
     $sessionId=$_POST['sessionId'];
 
 
@@ -32,7 +32,7 @@ $facultyId=$_POST['facultyId'];
     }
     else{
 
-    $query=mysqli_query($con,"insert into tblstudent(firstName,lastName,otherName,matricNo,password,levelId,facultyId,departmentId,sessionId,dateCreated) value('$firstname','$lastname','$othername','$matricNo','freeprojectscodes.com','$levelId','$facultyId','$departmentId','$sessionId','$dateCreated')");
+    $query=mysqli_query($con,"insert into tblstudent(firstName,lastName,matricNo,password,levelId,facultyId,departmentId,sessionId,dateCreated) value('$firstname','$lastname','$matricNo','$password','$levelId','$facultyId','$departmentId','$sessionId','$dateCreated')");
 
     if ($query) {
 
@@ -158,14 +158,14 @@ function showValues(str) {
                                                 <div class="col-6">
                                                     <div class="form-group">
 													<!-- Log on to freeprojectscodes.com for more projects! -->
-                                                        <label for="cc-exp" class="control-label mb-1">Firstname</label>
-                                                        <input id="" name="firstname" type="text" class="form-control cc-exp" value="" Required data-val="true" data-val-required="Please enter the card expiration" data-val-cc-exp="Please enter a valid month and year" placeholder="Firstname">
+                                                        <label for="cc-exp" class="control-label mb-1">First Name</label>
+                                                        <input id="" name="firstname" type="text" class="form-control cc-exp" value="" Required data-val="true" data-val-required="Please enter the card expiration" data-val-cc-exp="Please enter a valid month and year" placeholder="First Name">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
 												<!-- Log on to freeprojectscodes.com for more projects! -->
-                                                    <label for="x_card_code" class="control-label mb-1">Lastname</label>
-                                                        <input id="" name="lastname" type="text" class="form-control cc-cvc" value="" Required data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" placeholder="Lastname">
+                                                    <label for="x_card_code" class="control-label mb-1">Last Name</label>
+                                                        <input id="" name="lastname" type="text" class="form-control cc-cvc" value="" Required data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" placeholder="Last Name">
                                                         </div>
                                                     </div>
                                                     <div>
@@ -174,8 +174,8 @@ function showValues(str) {
                                                 <div class="col-6">
                                                     <div class="form-group">
 													<!-- Log on to freeprojectscodes.com for more projects! -->
-                                                        <label for="cc-exp" class="control-label mb-1">Othername</label>
-                                                        <input id="" name="othername" type="text" class="form-control cc-exp" value="" data-val="true" data-val-required="Please enter the card expiration" data-val-cc-exp="Please enter a valid month and year" placeholder="Othername">
+                                                        <label for="cc-exp" class="control-label mb-1">Password</label>
+                                                        <input id="" name="password" type="text" class="form-control cc-exp" value="" data-val="true" data-val-required="Please enter the card expiration" data-val-cc-exp="Please enter a valid password" placeholder="Password">
                                                     </div>
                                                 </div>
                                             <div class="col-6">
@@ -248,9 +248,8 @@ function showValues(str) {
                                                  </div>
                                                  
                                                 </div>
-                                             </div>
+                                            </div>
 											 <!-- Log on to freeprojectscodes.com for more projects! -->
-                                             <p><small><i>Note: By default student's password is set to "<b>freeprojectscodes.com</b>"</i></small></p>
                                                 <button type="submit" name="submit" class="btn btn-success">Add New Student</button>
                                             </div>
                                         </form>
@@ -286,7 +285,7 @@ function showValues(str) {
                                     <tbody>
                                       
                             <?php
-                    $ret=mysqli_query($con,"SELECT tblstudent.Id, tblstudent.firstName, tblstudent.lastName, tblstudent.otherName,tblstudent.matricNo,
+                    $ret=mysqli_query($con,"SELECT tblstudent.Id, tblstudent.firstName, tblstudent.lastName, tblstudent.password,tblstudent.matricNo,
                     tblstudent.dateCreated, tbllevel.levelName,tblfaculty.facultyName,tbldepartment.departmentName,tblsession.sessionName
                     from tblstudent
                     INNER JOIN tbllevel ON tbllevel.Id = tblstudent.levelId
@@ -298,12 +297,13 @@ function showValues(str) {
                                         ?>
                     <tr>
                     <td><?php echo $cnt;?></td>
-                    <td><?php  echo $row['firstName'].' '.$row['lastName'].' '.$row['otherName'];?></td>
+                    <td><?php  echo $row['firstName'].' '.$row['lastName'];?></td>
+                    <td><?php  echo $row['password'];?></td>
                     <td><?php  echo $row['matricNo'];?></td>
                     <td><?php  echo $row['levelName'];?></td>
                     <td><?php  echo $row['facultyName'];?></td>
                     <td><?php  echo $row['departmentName'];?></td>
-                     <td><?php  echo $row['sessionName'];?></td>
+                    <td><?php  echo $row['sessionName'];?></td>
                     <td><?php  echo $row['dateCreated'];?></td>
 					<!-- Log on to freeprojectscodes.com for more projects! -->
                     <td><a href="editStudent.php?editStudentId=<?php echo $row['matricNo'];?>" title="Edit Details"><i class="fa fa-edit fa-1x"></i></a>
