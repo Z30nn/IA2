@@ -1,4 +1,3 @@
-
 <?php
 
     include('../includes/dbconnection.php');
@@ -175,7 +174,14 @@ function showValues(str) {
                                                     <div class="form-group">
 													<!-- Log on to freeprojectscodes.com for more projects! -->
                                                         <label for="cc-exp" class="control-label mb-1">Password</label>
-                                                        <input id="" name="password" type="text" class="form-control cc-exp" value="" data-val="true" data-val-required="Please enter the card expiration" data-val-cc-exp="Please enter a valid password" placeholder="Password">
+                                                        <input id="password" name="password" type="password" class="form-control cc-exp" value="" required placeholder="Password">
+                                                        <ul id="password-policy" style="list-style:none; padding-left:0; font-size:0.95em; margin-bottom:0;">
+                                                          <li id="policy-length">❌ At least 8 characters long</li>
+                                                          <li id="policy-uppercase">❌ Contains 1 uppercase</li>
+                                                          <li id="policy-lowercase">❌ Contains 1 lowercase</li>
+                                                          <li id="policy-special">❌ Contains 1 special character</li>
+                                                        </ul>
+                                                        <span id="password-error" style="color:red; font-size:0.9em;"></span>
                                                     </div>
                                                 </div>
                                             <div class="col-6">
@@ -376,6 +382,45 @@ function showValues(str) {
 
       
   </script>
+
+<script>
+function checkPasswordPolicy(password) {
+    return {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        special: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)
+    };
+}
+function updatePasswordPolicyUI(policy) {
+    document.getElementById('policy-length').textContent = (policy.length ? '✅' : '❌') + ' At least 8 characters long';
+    document.getElementById('policy-uppercase').textContent = (policy.uppercase ? '✅' : '❌') + ' Contains 1 uppercase';
+    document.getElementById('policy-lowercase').textContent = (policy.lowercase ? '✅' : '❌') + ' Contains 1 lowercase';
+    document.getElementById('policy-special').textContent = (policy.special ? '✅' : '❌') + ' Contains 1 special character';
+}
+document.getElementById('password').addEventListener('input', function() {
+    var pwd = this.value;
+    var policy = checkPasswordPolicy(pwd);
+    updatePasswordPolicyUI(policy);
+    var errorSpan = document.getElementById('password-error');
+    if (policy.length && policy.uppercase && policy.lowercase && policy.special) {
+        errorSpan.textContent = '';
+    } else {
+        errorSpan.textContent = 'Password does not meet all requirements.';
+    }
+});
+document.querySelector('form').addEventListener('submit', function(e) {
+    var pwd = document.getElementById('password').value;
+    var policy = checkPasswordPolicy(pwd);
+    var errorSpan = document.getElementById('password-error');
+    if (!(policy.length && policy.uppercase && policy.lowercase && policy.special)) {
+        errorSpan.textContent = 'Password does not meet all requirements.';
+        e.preventDefault();
+    } else {
+        errorSpan.textContent = '';
+    }
+});
+</script>
 
 </body>
 </html>
