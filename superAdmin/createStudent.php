@@ -291,8 +291,7 @@ function showValues(str) {
                                     <tbody>
                                       
                             <?php
-                    $ret=mysqli_query($con,"SELECT tblstudent.Id, tblstudent.firstName, tblstudent.lastName, tblstudent.password,tblstudent.matricNo,
-                    tblstudent.dateCreated, tbllevel.levelName,tblfaculty.facultyName,tbldepartment.departmentName,tblsession.sessionName
+                    $ret=mysqli_query($con,"SELECT tblstudent.Id, tblstudent.firstName, tblstudent.lastName, tblstudent.matricNo, tblstudent.dateCreated, tbllevel.levelName,tblfaculty.facultyName,tbldepartment.departmentName,tblsession.sessionName
                     from tblstudent
                     INNER JOIN tbllevel ON tbllevel.Id = tblstudent.levelId
                     INNER JOIN tblsession ON tblsession.Id = tblstudent.sessionId
@@ -304,7 +303,6 @@ function showValues(str) {
                     <tr>
                     <td><?php echo $cnt;?></td>
                     <td><?php  echo $row['firstName'].' '.$row['lastName'];?></td>
-                    <td><?php  echo $row['password'];?></td>
                     <td><?php  echo $row['matricNo'];?></td>
                     <td><?php  echo $row['levelName'];?></td>
                     <td><?php  echo $row['facultyName'];?></td>
