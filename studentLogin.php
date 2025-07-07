@@ -5,12 +5,15 @@ error_reporting(0);
 
     if(isset($_POST['login']))
     {
-        $matricNo=$_POST['matricNo'];
-        // $password=md5($_POST['password']);
-        $password=$_POST['password'];
-        $query = mysqli_query($con,"select * from tblstudent where matricNo='$matricNo' && password='$password'");
-        $count = mysqli_num_rows($query);
-        $row = mysqli_fetch_array($query);
+        $matricNo = $_POST['matricNo'];
+        $password = $_POST['password'];
+
+        $stmt = $con->prepare("SELECT * FROM tblstudent WHERE matricNo = ? AND password = ?");
+        $stmt->bind_param("ss", $matricNo, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $count = $result->num_rows;
+        $row = $result->fetch_assoc();
 
         if($count > 0)
         {
@@ -87,7 +90,12 @@ error_reporting(0);
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" name="password" Required class="form-control" placeholder="Password">
+                            <div class="input-group">
+                                <input type="password" name="password" id="student-password" Required class="form-control" placeholder="Password">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="toggle-student-password" style="cursor:pointer;"><i class="fa fa-eye-slash"></i></span>
+                                </div>
+                            </div>
                         </div>
                         <div class="checkbox">
                            <label class="pull-left">
@@ -119,6 +127,21 @@ error_reporting(0);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+    $(document).ready(function(){
+      $('#toggle-student-password').on('click', function() {
+        var input = $('#student-password');
+        var icon = $(this).find('i');
+        if (input.attr('type') === 'password') {
+          input.attr('type', 'text');
+          icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        } else {
+          input.attr('type', 'password');
+          icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        }
+      });
+    });
+    </script>
 
 </body>
 </html>

@@ -6,13 +6,16 @@
 
     if(isset($_POST['login']))
     {
-        $staffId=$_POST['staffId'];
-        // $password=md5($_POST['password']);
-        $password=$_POST['password'];
+        $staffId = $_POST['staffId'];
+        $password = $_POST['password'];
         $password = md5($password);
-        $query = mysqli_query($con,"select * from tbladmin where  staffId='$staffId' && password='$password'");
-        $count = mysqli_num_rows($query);
-        $row = mysqli_fetch_array($query);
+
+        $stmt = $con->prepare("SELECT * FROM tbladmin WHERE staffId = ? AND password = ?");
+        $stmt->bind_param("ss", $staffId, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $count = $result->num_rows;
+        $row = $result->fetch_assoc();
 
         if($count > 0)
         {
@@ -24,16 +27,11 @@
 
             if($_SESSION['adminTypeId'] == 1) // SuperAdministrator
             {
-                echo "<script type = \"text/javascript\">
-                window.location = (\"superAdmin/index.php\")
-                </script>";  
+                echo "<script type = \"text/javascript\">\n            window.location = (\"superAdmin/index.php\")\n            </script>";  
             }
-
             else if($_SESSION['adminTypeId'] == 2) // Administrator
             {
-                echo "<script type = \"text/javascript\">
-                window.location = (\"admin/index.php\")
-                </script>";  
+                echo "<script type = \"text/javascript\">\n            window.location = (\"admin/index.php\")\n            </script>";  
             }
         }
         else
@@ -89,8 +87,13 @@
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" name="password" Required class="form-control" placeholder="Password">
-                        </div><!-- Log on to freeprojectscodes.com for more projects! -->
+                            <div class="input-group">
+                                <input type="password" name="password" id="admin-password" Required class="form-control" placeholder="Password">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="toggle-admin-password" style="cursor:pointer;"><i class="fa fa-eye-slash"></i></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="checkbox">
                            <label class="pull-left">
                                 <a href="index.php">Go Back</a>
@@ -125,6 +128,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
     <script src="assets/js/main.js"></script>
+
+    <script>
+    $(document).ready(function(){
+      $('#toggle-admin-password').on('click', function() {
+        var input = $('#admin-password');
+        var icon = $(this).find('i');
+        if (input.attr('type') === 'password') {
+          input.attr('type', 'text');
+          icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        } else {
+          input.attr('type', 'password');
+          icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        }
+      });
+    });
+    </script>
 
 </body>
 </html>

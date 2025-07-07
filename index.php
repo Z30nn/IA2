@@ -39,43 +39,74 @@
 <body>
 
   <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top">
-    <div class="container d-flex align-items-center">
-      <a class="navbar-brand" href="index.php"><img src="assets/img/student-grade.png" alt="Logo" style="width:30px;height:30px;"></a>
-      <h1 class="logo mr-auto"><a href="index.php">Student Grading System</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-
-      <nav class="nav-menu d-none d-lg-block">
-        <ul>
-          <li class="active"><a href="index.php">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Courses</a></li>          
-          <li><a href="#">Contact</a></li>
-
-          <li class="drop-down"><a href="">Login <i class='bx bxs-down-arrow'></i></a> 
-            <ul>
-              <li><a href="adminLogin.php">Administrator</a></li>
-              <li><a href="studentLogin.php">Student</a></li>
-			  <!-- Log on to freeprojectscodes.com for more projects! -->
-             
-            </ul>
-          </li>
-
-        </ul>
-      </nav><!-- .nav-menu -->
-
-      <!-- <a href="#" class="get-started-btn">Alumni</a> -->
-
+  <header id="header" class="fixed-top" style="box-shadow: 0 2px 8px rgba(0,0,0,0.07); background: #fff;">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light" style="padding: 0;">
+        <a class="navbar-brand d-flex align-items-center" href="index.php">
+          <img src="assets/img/student-grade.png" alt="Logo" style="width:32px;height:32px;margin-right:8px;">
+          <span style="font-weight:700; color:#a259c6; font-size:1.4rem; letter-spacing:1px;">STUDENT GRADING SYSTEM</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+          <ul class="navbar-nav align-items-center">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.php"><i class='bx bx-home'></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about"><i class='bx bx-info-circle'></i> About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#courses"><i class='bx bx-book'></i> Courses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact"><i class='bx bx-envelope'></i> Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class='bx bx-log-in'></i> Login
+              </a>
+              <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="loginDropdown">
+                <a class="dropdown-item d-flex align-items-center" href="adminLogin.php"><i class='bx bxs-user-badge mr-2'></i> Administrator</a>
+                <a class="dropdown-item d-flex align-items-center" href="studentLogin.php"><i class='bx bxs-user mr-2'></i> Student</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </div>
+    <style>
+      .navbar-nav .nav-link {
+        font-weight: 500;
+        color: #333 !important;
+        transition: color 0.2s;
+        font-size: 1.05rem;
+      }
+      .navbar-nav .nav-link:hover, .navbar-nav .nav-item.active .nav-link {
+        color: #a259c6 !important;
+      }
+      .dropdown-menu {
+        min-width: 180px;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      }
+      .dropdown-item:active, .dropdown-item:focus, .dropdown-item:hover {
+        background: #f3e9fa;
+        color: #a259c6;
+      }
+      .navbar-brand span {
+        font-family: 'Poppins', 'Raleway', sans-serif;
+      }
+    </style>
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex justify-content-center align-items-center" style="background-image: url('assets/img/phb.jpg');">
-    <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
-      <h1>Student Grading System<br>PHP MySQL</h1>
-      <!-- <h2>Learning Today, Leading Tomorrow.</h2> -->
-      <a href="#" class="btn-get-started">Read More</a>
+  <section id="hero" class="d-flex justify-content-center align-items-center">
+    <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100" style="text-align:center;">
+      <img src="assets/img/student-grade.png" alt="Student Grading" style="width:90px;max-width:20vw;margin-bottom:18px;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.12));">
+      <h1>Student Grading System</h1>
+      <a href="#about" class="btn-get-started">Read More</a>
     </div>
   </section><!-- End Hero -->
 
@@ -84,27 +115,27 @@
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
-
         <div class="section-title">
-          <h2>Our Mission</h2><!-- Log on to freeprojectscodes.com for more projects! -->
-          <p>Our Mission</p>
+          <h2>About</h2>
+          <p>About the Student Grading System</p>
         </div>
-
         <div class="row">
           <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
-            <img src="assets/img/placeholder-img.jpg" style="height:400px;" class="img-fluid" alt="">
+            <img src="assets/img/student-grade.png" style="height:260px;max-width:100%;margin:0 auto;display:block;" class="img-fluid" alt="Student Grading Illustration">
           </div>
           <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
             <p>
-			<!-- Log on to freeprojectscodes.com for more projects! -->
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-
+              The Student Grading System is a secure, user-friendly platform designed to simplify the management of student records, grades, and academic performance. It enables administrators and lecturers to efficiently manage courses, input grades, and generate reports, while students can easily access their results and academic progress online.
             </p>
-            <a href="#" class="learn-more-btn">Read More</a><!-- Log on to freeprojectscodes.com for more projects! -->
+            <ul>
+              <li><i class='bx bx-check'></i> Secure login for administrators and students</li>
+              <li><i class='bx bx-check'></i> Real-time grade management and reporting</li>
+              <li><i class='bx bx-check'></i> Easy access to academic records</li>
+              <li><i class='bx bx-check'></i> Modern, responsive design</li>
+            </ul>
+            <a href="#contact" class="learn-more-btn">Contact Us</a>
           </div>
         </div>
-
       </div>
     </section><!-- End About Section -->
 
@@ -436,6 +467,120 @@
       </div>
     </section>End Trainers Section -->
 
+    <!-- ======= Courses/Features Section ======= -->
+    <section id="courses" class="courses section-bg">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Features</h2>
+          <p>What You Can Do</p>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body text-center">
+                <i class='bx bx-bar-chart-alt-2' style="font-size:2.5rem;color:#a259c6;"></i>
+                <h5 class="card-title mt-3">Grade Management</h5>
+                <p class="card-text">Easily input, update, and manage student grades for all courses and sessions.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body text-center">
+                <i class='bx bx-user' style="font-size:2.5rem;color:#a259c6;"></i>
+                <h5 class="card-title mt-3">Student Profiles</h5>
+                <p class="card-text">Maintain comprehensive student records, including personal info, courses, and results.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body text-center">
+                <i class='bx bx-file' style="font-size:2.5rem;color:#a259c6;"></i>
+                <h5 class="card-title mt-3">Reports & Analytics</h5>
+                <p class="card-text">Generate printable reports and analytics for students, courses, and departments.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body text-center">
+                <i class='bx bx-lock' style="font-size:2.5rem;color:#a259c6;"></i>
+                <h5 class="card-title mt-3">Secure Access</h5>
+                <p class="card-text">Role-based access for administrators, staff, and students to ensure data privacy.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body text-center">
+                <i class='bx bx-cloud-upload' style="font-size:2.5rem;color:#a259c6;"></i>
+                <h5 class="card-title mt-3">Cloud Backup</h5>
+                <p class="card-text">Automatic backup of records to prevent data loss and ensure reliability.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body text-center">
+                <i class='bx bx-mobile-alt' style="font-size:2.5rem;color:#a259c6;"></i>
+                <h5 class="card-title mt-3">Mobile Friendly</h5>
+                <p class="card-text">Access the system from any device, anywhere, with a fully responsive interface.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Courses/Features Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Contact</h2>
+          <p>Contact Us</p>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="info-box mb-4">
+              <i class='bx bx-map'></i>
+              <h3>Our Address</h3>
+              <p>1147 Center Street, Albany, OR 97321</p>
+            </div>
+            <div class="info-box mb-4">
+              <i class='bx bx-envelope'></i>
+              <h3>Email Us</h3>
+              <p>mail@stdgrading.edu.ng</p>
+            </div>
+            <div class="info-box mb-4">
+              <i class='bx bx-phone-call'></i>
+              <h3>Call Us</h3>
+              <p>101-000-1110</p>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <form action="#" method="post" role="form" class="php-email-form">
+              <div class="form-row">
+                <div class="col form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required />
+                </div>
+                <div class="col form-group">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required />
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Contact Section -->
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -528,6 +673,21 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    // Smooth scroll for nav links
+    $(document).ready(function(){
+      $(".navbar-nav a.nav-link").on('click', function(event) {
+        if (this.hash !== "") {
+          event.preventDefault();
+          var hash = this.hash;
+          $('html, body').animate({
+            scrollTop: $(hash).offset().top - 80
+          }, 800);
+        }
+      });
+    });
+  </script>
 
 </body>
 
