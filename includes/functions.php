@@ -101,6 +101,14 @@ function getClassOfDiploma($gpa){
      return $classOfDiploma;
 }
 
+// Log an event to the audit_logs table
+function log_audit_event($con, $user, $role, $event_type, $event_details) {
+    $ip_address = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $stmt = mysqli_prepare($con, "INSERT INTO audit_logs (user, role, event_type, event_details, ip_address) VALUES (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, "sssss", $user, $role, $event_type, $event_details, $ip_address);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
 
 ?>
 <!-- Log on to freeprojectscodes.com for more projects! -->

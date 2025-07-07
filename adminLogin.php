@@ -3,6 +3,7 @@
     session_start();
     error_reporting(0);
     include('includes/dbconnection.php');
+    include('includes/functions.php');
 
     // PHPMailer namespace imports
     use PHPMailer\PHPMailer\PHPMailer;
@@ -17,6 +18,22 @@
     {
         $staffId=$_POST['staffId'];
         $password=md5($_POST['password']);
+        $suspicious = false;
+        // Suspicious input detection (basic)
+        $patterns = [
+            '/\b(UNION|SELECT|INSERT|UPDATE|DELETE|DROP|--|#|\*|;|\bor\b|\band\b|\'|\")\b/i',
+            '/\b1=1\b/',
+            '/\bOR\b.*=/',
+        ];
+        foreach([$staffId, $_POST['password']] as $input) {
+            foreach($patterns as $pattern) {
+                if(preg_match($pattern, $input)) {
+                    $suspicious = true;
+                    log_audit_event($con, $staffId, 'admin', 'attack_detected', 'Suspicious input detected in login: ' . $input);
+                    break 2;
+                }
+            }
+        }
         $query = mysqli_query($con,"select * from tbladmin where  staffId='$staffId' && password='$password'");
         $count = mysqli_num_rows($query);
         $row = mysqli_fetch_array($query);
@@ -65,11 +82,13 @@
                 $errorMsg = "<div class='alert alert-danger' role='alert'>Verification email could not be sent. Mailer Error: {$mail->ErrorInfo}</div>";
             }
 
+            log_audit_event($con, $staffId, 'admin', 'login_success', 'Admin login (MFA code sent)');
             $showModal = true;
         }
         else
         {
             $errorMsg = "<div class='alert alert-danger' role='alert'>Invalid Username/Password!</div>";
+            log_audit_event($con, $staffId, 'admin', 'login_fail', 'Invalid username or password');
         }
     }
 
@@ -86,6 +105,7 @@
             // Clean up
             unset($_SESSION['pending_staffId'], $_SESSION['pending_emailAddress'], $_SESSION['pending_firstName'], $_SESSION['pending_lastName'], $_SESSION['pending_adminTypeId'], $_SESSION['mfa_code'], $_SESSION['mfa_code_time']);
             // Redirect
+            log_audit_event($con, $_SESSION['staffId'], 'admin', 'mfa_success', 'MFA code verified, admin logged in');
             if($_SESSION['adminTypeId'] == 1) {
                 echo "<script>window.location = ('superAdmin/index.php')</script>";
             } else if($_SESSION['adminTypeId'] == 2) {
@@ -95,6 +115,7 @@
         } else {
             $errorMsg = "<div class='alert alert-danger' role='alert'>Invalid or expired code. Please try again.";
             $showModal = true;
+            log_audit_event($con, $_SESSION['pending_staffId'] ?? 'unknown', 'admin', 'mfa_fail', 'Invalid or expired MFA code');
         }
     }
 ?>

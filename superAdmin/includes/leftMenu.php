@@ -1,4 +1,3 @@
-
 <?php
 $staffId = $_SESSION['staffId'];
 $query = mysqli_query($con,"select * from tbladmin where staffId='$staffId'");
@@ -95,6 +94,9 @@ $staffFullName = $row['firstName'].' '.$row['lastName'];
                          <li>
                         <a href="logout.php"> <i class="menu-icon fa fa-power-off"></i>Logout </a>
                     </li>
+                    </li>
+                    <li class="<?php if($page=='auditlogs'){ echo 'active'; }?>">
+                        <a href="auditLogs.php"><i class="menu-icon fa fa-list"></i>Audit Logs</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->

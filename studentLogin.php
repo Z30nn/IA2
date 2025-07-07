@@ -2,15 +2,33 @@
 error_reporting(0);
     session_start();
     include('includes/dbconnection.php');
+    include('includes/functions.php');
 
     if(isset($_POST['login']))
     {
         $matricNo = trim($_POST['matricNo']);
         $password = trim($_POST['password']);
         $errorMsg = '';
+        $suspicious = false;
+        // Suspicious input detection (basic)
+        $patterns = [
+            '/\b(UNION|SELECT|INSERT|UPDATE|DELETE|DROP|--|#|\*|;|\bor\b|\band\b|\'|\")\b/i',
+            '/\b1=1\b/',
+            '/\bOR\b.*=/',
+        ];
+        foreach([$matricNo, $password] as $input) {
+            foreach($patterns as $pattern) {
+                if(preg_match($pattern, $input)) {
+                    $suspicious = true;
+                    log_audit_event($con, $matricNo, 'student', 'attack_detected', 'Suspicious input detected in login: ' . $input);
+                    break 2;
+                }
+            }
+        }
         // Basic input validation
         if(empty($matricNo) || empty($password)) {
             $errorMsg = "<div class='alert alert-danger' role='alert'>Please fill in all fields!</div>";
+            log_audit_event($con, $matricNo, 'student', 'login_fail', 'Empty matricNo or password');
         } else {
             // Use prepared statements to prevent SQL injection
             $stmt = mysqli_prepare($con, "SELECT * FROM tblstudent WHERE matricNo = ?");
@@ -24,7 +42,7 @@ error_reporting(0);
                 $_SESSION['matricNo']=$row['matricNo'];
                 $_SESSION['firstName']=$row['firstName'];
                 $_SESSION['lastName']=$row['lastName'];
-
+                log_audit_event($con, $matricNo, 'student', 'login_success', 'Student login successful');
                 echo "<script type = \"text/javascript\">
                     window.location = (\"student/index.php\")
                    </script>";  
@@ -45,6 +63,7 @@ error_reporting(0);
             else
             {
                 $errorMsg = "<div class='alert alert-danger' role='alert'>Invalid Username/Password!</div>";
+                log_audit_event($con, $matricNo, 'student', 'login_fail', 'Invalid username or password');
             }
             mysqli_stmt_close($stmt);
         }
