@@ -580,5 +580,6 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     event_type VARCHAR(50) NOT NULL,
     event_details TEXT,
     ip_address VARCHAR(45) DEFAULT NULL,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    notified TINYINT(1) NOT NULL DEFAULT 0
 );
