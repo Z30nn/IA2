@@ -31,7 +31,8 @@ $facultyId=$_POST['facultyId'];
     }
     else{
 
-    $query=mysqli_query($con,"insert into tblstudent(firstName,lastName,matricNo,password,levelId,facultyId,departmentId,sessionId,dateCreated) value('$firstname','$lastname','$matricNo','$password','$levelId','$facultyId','$departmentId','$sessionId','$dateCreated')");
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $query=mysqli_query($con,"insert into tblstudent(firstName,lastName,matricNo,password,levelId,facultyId,departmentId,sessionId,dateCreated) value('$firstname','$lastname','$matricNo','$hashedPassword','$levelId','$facultyId','$departmentId','$sessionId','$dateCreated')");
 
     if ($query) {
 

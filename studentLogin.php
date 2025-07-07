@@ -13,14 +13,13 @@ error_reporting(0);
             $errorMsg = "<div class='alert alert-danger' role='alert'>Please fill in all fields!</div>";
         } else {
             // Use prepared statements to prevent SQL injection
-            $stmt = mysqli_prepare($con, "SELECT * FROM tblstudent WHERE matricNo = ? AND password = ?");
-            mysqli_stmt_bind_param($stmt, "ss", $matricNo, $password);
+            $stmt = mysqli_prepare($con, "SELECT * FROM tblstudent WHERE matricNo = ?");
+            mysqli_stmt_bind_param($stmt, "s", $matricNo);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
-            $count = mysqli_num_rows($result);
             $row = mysqli_fetch_array($result);
 
-            if($count > 0)
+            if($row && password_verify($password, $row['password']))
             {
                 $_SESSION['matricNo']=$row['matricNo'];
                 $_SESSION['firstName']=$row['firstName'];
