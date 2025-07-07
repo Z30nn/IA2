@@ -5,39 +5,49 @@ error_reporting(0);
 
     if(isset($_POST['login']))
     {
-        $matricNo=$_POST['matricNo'];
-        // $password=md5($_POST['password']);
-        $password=$_POST['password'];
-        $query = mysqli_query($con,"select * from tblstudent where matricNo='$matricNo' && password='$password'");
-        $count = mysqli_num_rows($query);
-        $row = mysqli_fetch_array($query);
+        $matricNo = trim($_POST['matricNo']);
+        $password = trim($_POST['password']);
+        $errorMsg = '';
+        // Basic input validation
+        if(empty($matricNo) || empty($password)) {
+            $errorMsg = "<div class='alert alert-danger' role='alert'>Please fill in all fields!</div>";
+        } else {
+            // Use prepared statements to prevent SQL injection
+            $stmt = mysqli_prepare($con, "SELECT * FROM tblstudent WHERE matricNo = ? AND password = ?");
+            mysqli_stmt_bind_param($stmt, "ss", $matricNo, $password);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $count = mysqli_num_rows($result);
+            $row = mysqli_fetch_array($result);
 
-        if($count > 0)
-        {
-            $_SESSION['matricNo']=$row['matricNo'];
-            $_SESSION['firstName']=$row['firstName'];
-            $_SESSION['lastName']=$row['lastName'];
+            if($count > 0)
+            {
+                $_SESSION['matricNo']=$row['matricNo'];
+                $_SESSION['firstName']=$row['firstName'];
+                $_SESSION['lastName']=$row['lastName'];
 
-            echo "<script type = \"text/javascript\">
-                window.location = (\"student/index.php\")
-               </script>";  
+                echo "<script type = \"text/javascript\">
+                    window.location = (\"student/index.php\")
+                   </script>";  
 
-            // if($row['roleId'] == 2){ //if user is Hod
+                // if($row['roleId'] == 2){ //if user is Hod
                 
-            //     echo "<script type = \"text/javascript\">
-            //     window.location = (\"hod/index.php\")
-            //     </script>";  
-            // }
-            // else if($row['roleId'] == 3){ //if user is Dean
+                //     echo "<script type = \"text/javascript\">
+                //     window.location = (\"hod/index.php\")
+                //     </script>";  
+                // }
+                // else if($row['roleId'] == 3){ //if user is Dean
                 
-            //     echo "<script type = \"text/javascript\">
-            //     window.location = (\"dean/index.php\")
-            //     </script>";  
-            // }
-        }
-        else
-        {
-            $errorMsg = "<div class='alert alert-danger' role='alert'>Invalid Username/Password!</div>";
+                //     echo "<script type = \"text/javascript\">
+                //     window.location = (\"dean/index.php\")
+                //     </script>";  
+                // }
+            }
+            else
+            {
+                $errorMsg = "<div class='alert alert-danger' role='alert'>Invalid Username/Password!</div>";
+            }
+            mysqli_stmt_close($stmt);
         }
     }
   ?>
